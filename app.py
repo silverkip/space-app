@@ -27,13 +27,13 @@ app.css.append_css({
 })
 
 app.layout = html.Div(
-    id='main',
+    className='main',
     children=[
         html.H1(
-            '{Name of App}'
+            'LAUNCH.IO'
         ),
         html.H1(
-            '{Name of App}'
+            'TIMER'
         ),
         html.Div([
             dcc.Graph(
@@ -46,7 +46,7 @@ app.layout = html.Div(
                             mode='markers',
                             marker=dict(
                                 size=14,
-                                color='green'
+                                color='limegreen'
                             ),
                             hoverinfo='text',
                             text=launches['location'],
@@ -83,10 +83,37 @@ def update_on_click(clickData):
 
     launch = launches[launches['lat'] == clickData['points'][0]['lat']]
 
+    return [
+        html.Div(
+            className="launch",
+            children=[
+                html.Div(
+                    className="top",
+                    children=[html.H1("Mission: "+row['mission'])],
+                ),
+                html.Div(
+                    className="bottom",
+                    children=[
+                        html.Div(className="picture"),
+                        html.Div(
+                            className="info",
+                            children=[
+                                html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
+                                for k, v in row.items() 
+                                if k in ['vehicle', 'time', 'location', 'pad', 'window']
+                                if v != "nan"
+                            ]
+                        ), 
+                        html.Div(
+                            className="description", 
+                            children=launch['description'],
+                        )
+                    ]
+                )
+            ]
+        ) for index, row in launch.iterrows()
+    ]
 
-    return [html.Div(
-        launch['description']
-    )]
 
 if __name__ == '__main__':
     app.run_server()
