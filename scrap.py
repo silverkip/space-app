@@ -1,7 +1,5 @@
 import requests
-
 from bs4 import BeautifulSoup
-
 
 key = "AIzaSyAUkNMzDo7KUo2TrCYYF9ENig32N7RJYg4"
 
