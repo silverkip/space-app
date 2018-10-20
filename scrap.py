@@ -1,5 +1,4 @@
 import requests
-import json
 
 from bs4 import BeautifulSoup
 
@@ -29,6 +28,12 @@ def getLaunches(past=False):
         result['image'] = style[index:-3]
         result['mission'] = tag.find(colspan='2').get_text()
         result['description'] = tag.find(class_='description').p.get_text()
+        place = result['location'].split(' ')
+        result['location'] = ' '.join(place[:-1])
+        result['pad'] = place[-1]
+        coordinates = geocode(result['location'])
+        result['long'] = coordinates.get('lng', None)
+        result['lat'] = coordinates.get('lat', None)
         launches.append(result)
 
     return launches
@@ -39,17 +44,22 @@ def geocode(address):
     address = address.replace(' ', '+')
     url = f"https://maps.googleapis.com/maps/api/geocode/json?key={key}&address={address}"
     response = requests.get(url).json()
+    if not response['results']:
+        return {}
     coordinates = response['results'][0]['geometry']['location']
+    for k, v in coordinates.items():
+        coordinates[k] = round(v, 7)
     return coordinates
 
 
 if __name__ == '__main__':
     from pprint import pprint
-    pprint(getLaunches())
-
-
-# result = requests.get("https://launchlibrary.net/1.4/launch?name=falcon")
-# with open("launches.json", "w") as file:
-#     json.dump(result.json(), file)
+    launches = getLaunches(True)
+    launches.sort(key=lambda l: l['location'])
+    for launch in launches:
+        print(launch['lat'], launch['long'])
+        pprint(launch['location'])
+        pprint(launch['pad'])
+        print()
 
 
