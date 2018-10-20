@@ -7,15 +7,22 @@ import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
 
-mapbox_access_token = 'pk.eyJ1IjoiYW5kcmV5ZGVuIiwiYSI6ImNqbmhnYnI5dzAxNXczcW1qYndkamg1MmQifQ.re0wxEvADs-GjhRJOhJMLA'
+from scrap import getLaunches, geocode
 
-df = pd.DataFrame(data={'lat': np.random.rand(100)*50, 'lon': np.random.rand(100)*50})
+mapbox_access_token = 'pk.eyJ1IjoiYW5kcmV5ZGVuIiwiYSI6ImNqbmhwdGlkMjBhYzQzanJzbTM3NzdobW8ifQ.ZR_vrBuTDB1-byVDkuxn4g'
+mapbox_style = 'mapbox://styles/andreyden/cjnhrugdjbmfl2rmmiv5dpojt'
+
+launches = pd.DataFrame(data=getLaunches(True)+getLaunches())
+
+launches = launches[~launches['lat'].isna()]
+
+print(launches['lat'].isna().any())
 
 app = dash.Dash(__name__)
 
 app.css.append_css({
    'external_url': (
-       'styles/main.css'
+       'main.css'
    )
 })
 
@@ -25,25 +32,31 @@ app.layout = html.Div(
         html.H1(
             '{Name of App}'
         ),
+        html.H1(
+            '{Name of App}'
+        ),
         html.Div([
             dcc.Graph(
                 id='map',
                 figure=go.Figure(
                     data=[
                         go.Scattermapbox(
-                            lat=df['lat'].values,
-                            lon=df['lon'].values,
+                            lat=launches['lat'],
+                            lon=launches['long'],
                             mode='markers',
                             marker=dict(
-                                size=14
+                                size=14,
+                                color='green'
                             ),
-                            text=['Montreal'],
+                            hoverinfo='text',
+                            text=launches['location'],
                         )
                     ],
                     layout=go.Layout(
                         hovermode='closest',
                         mapbox=dict(
                             accesstoken=mapbox_access_token,
+                            style=mapbox_style,
                             bearing=0,
                             center=dict(
                                 lat=45,

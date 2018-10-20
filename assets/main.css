@@ -4,27 +4,30 @@
 
 body {
   font-family: Arial;
+  background-color: grey;
 }
 
 h1 {
   text-align:center;
   font-family:Arial;
   text-size:6em;
-  width:50%;
-}
-
-#main {
-  width: 50%;
 }
 
 #map {
   margin: auto 0;
-  width: 50%;
   height: 800px;
 }
 
 #rocket {
-  width: 50%;
+  font-size: 3em;
+  text-align: center;
+
+  border: 1px solid gray;
+  border-radius: 8px;
+  margin: 100px 20px;
+}
+
+.rockets {
   font-size: 3em;
   text-align: center;
 
