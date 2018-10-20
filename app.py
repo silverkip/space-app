@@ -80,8 +80,13 @@ app.layout = html.Div(
 @app.callback(Output('rocket', 'children'),
               [Input('map', 'clickData')])
 def update_on_click(clickData):
-    return 'lat:{}, lon:{}'.format(clickData['points'][0]['lat'],
-                                   clickData['points'][0]['lon'])
+
+    launch = launches[launches['lat'] == clickData['points'][0]['lat']]
+
+
+    return [html.Div(
+        launch['description']
+    )]
 
 if __name__ == '__main__':
     app.run_server()
