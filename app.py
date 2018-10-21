@@ -12,7 +12,7 @@ from time import gmtime, localtime
 from scrap import getLaunches, geocode
 
 mapbox_access_token = 'pk.eyJ1IjoiYW5kcmV5ZGVuIiwiYSI6ImNqbmhwdGlkMjBhYzQzanJzbTM3NzdobW8ifQ.ZR_vrBuTDB1-byVDkuxn4g'
-mapbox_style = 'mapbox://styles/andreyden/cjnhrugdjbmfl2rmmiv5dpojt'
+mapbox_style = 'mapbox://styles/redboot/cjnidreh14o5o2rs1vgnsol2p'
 
 past = getLaunches(True)
 to_be_launched = getLaunches()
@@ -67,7 +67,7 @@ app.layout = html.Div(
     className='main',
     children=[
         html.A(href="https://clever-boyd-6ef0a3.netlify.com/", id="ref", children="Info"),
-        html.H1('LAUNCH.IO'),
+        html.H1(id="name", children='LAUNCH.IO'),
         html.H1(
             id='Timer',
             children='0'
@@ -92,7 +92,7 @@ app.layout = html.Div(
                     )],
                     layout=go.Layout(
                         hovermode='closest',
-                        paper_bgcolor="rgb(51, 0, 102)",
+                        paper_bgcolor="rgb(0, 31, 31)",
                         margin=go.layout.Margin(
                             l=10,
                             r=10,
@@ -124,15 +124,13 @@ app.layout = html.Div(
             )
         ),
         html.Div([
-            dcc.Tabs(id="tabs", value='tab-2', children=[
-                dcc.Tab(label='All launches on this location', value='tab-1'),
-                dcc.Tab(label='ALL', value='tab-2'),
+            dcc.Tabs(id="tabs", className="tabs", value='tab-2', children=[
+                dcc.Tab(label='This location', value='tab-1', className='tab', selected_className="tab-selected"),
+                dcc.Tab(label='ALL', value='tab-2', className='tab', selected_className="tab-selected"),
             ]),
             html.Div(
                 id='rocket',
-                children=[
-                    divTemplate(index, row) for index, row in launches.iterrows()
-                ]
+                children=[divTemplate(index, row) for index, row in launches.iterrows()]
             )
         ])
     ]
@@ -142,16 +140,11 @@ app.layout = html.Div(
               [Input('map', 'clickData'), Input('tabs', 'value')])
 def update_on_click(clickData, tab):
     if tab == 'tab-1':
-        if not clickData:
-            return ''
+        if not clickData: return ''
         launch = launches[launches['lat'] == clickData['points'][0]['lat']]
-        return [
-             divTemplate(index, row) for index, row in launch.iterrows()
-        ]
+        return [divTemplate(index, row) for index, row in launch.iterrows()]
     elif tab == 'tab-2':
-        return [
-            divTemplate(index, row) for index, row in launches.iterrows()
-        ]
+        return [divTemplate(index, row) for index, row in launches.iterrows()]
 
 @app.callback(Output('Timer', 'children'),
               [Input('interval-component', 'n_intervals')])
@@ -170,5 +163,5 @@ def timeToNearestLaunch(n):
                                                                    diff.seconds%60)
 
 if __name__ == '__main__':
-    app.scripts.config.serve_locally = False
+    #app.scripts.config.serve_locally = False
     app.run_server()

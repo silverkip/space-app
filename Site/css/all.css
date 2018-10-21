@@ -29,7 +29,9 @@ body{
 }
 
 
-
+* {
+  color: limegreen;
+}
 
 /* Content */
 .container{
@@ -83,7 +85,7 @@ h2{
 
 body {
 	min-width: 480px;
-	background: pink;
+	background: rgb(0, 31, 31);
 }
 
 #wrapper {
