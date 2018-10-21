@@ -13,6 +13,7 @@ body {
 
 #map {
   height: 800px;
+  padding: 0;
 }
 
 div.main > h1 {
@@ -27,6 +28,7 @@ div.main > h1 {
     background-color: pink;
     font-size: 1.5em;
 }
+<<<<<<< HEAD
 
 img {
   display: block;
@@ -51,3 +53,5 @@ div.bottom::after {
 
 
 
+=======
+>>>>>>> 51517aae897f56d5901ab8ec5cfbd1752591e529
