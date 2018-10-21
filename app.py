@@ -9,12 +9,28 @@ from datetime import datetime as dt
 from time import gmtime, localtime
 
 from scrap import getLaunches, geocode
+import requests
+import bs4
+
+def get_image(query):
+    pquery = query.replace(' ', '+')
+    soup = bs4.BeautifulSoup(requests.get(f"https://google.com/search?q={pquery}&tbm=isch").text, 'lxml')
+    for img in soup.select("img[alt]"):
+        if query in img["alt"]:
+             return img["src"]
+    
 
 mapbox_access_token = 'pk.eyJ1IjoiYW5kcmV5ZGVuIiwiYSI6ImNqbmhwdGlkMjBhYzQzanJzbTM3NzdobW8ifQ.ZR_vrBuTDB1-byVDkuxn4g'
 mapbox_style = 'mapbox://styles/redboot/cjnidreh14o5o2rs1vgnsol2p'
 
 rockets = pd.read_excel('Rockets and spaceports.xlsx', 'Rockets')
 spaceports = pd.read_excel('Rockets and spaceports.xlsx', 'Spaceports')
+
+for index, row in rockets.iterrows():
+    if pd.isnull(row["Rocket"]): continue
+    row["Photo"] = get_image("Rocket "+row["Rocket"])
+
+print("done.")
 
 past = getLaunches(True)
 to_be_launched = getLaunches()
@@ -31,6 +47,33 @@ app.css.append_css({
        'main.css'
    )
 })
+
+def render_rocket(idx, row):
+    if pd.isnull(row.values).any(): 
+        return ''
+    return html.Div(
+        className="rocketinfo",
+        children=[
+            html.Div(
+                className="top",
+                children=[html.H1(f"Rocket #{int(idx+1)}" + ": "+row['Rocket'])],
+            ),
+            html.Div(
+                className="bottom",
+                children=[
+                    html.Img(src=row["Photo"]),
+                    html.Div(
+                        className="text",
+                        children=[
+                            html.P(children=[html.B(children=k), ': '+ str(v)])
+                            for k, v in row.items()
+                            if k in ['Company', 'Site', 'Country'] and str(v).lower() != "nan"
+                        ]
+                    )
+                ]
+            )
+        ]
+    )
 
 def divTemplate(idx, row):
     return html.Div(
@@ -76,10 +119,7 @@ main_page = [
     html.Div(id='temp'),
     html.A(href="https://clever-boyd-6ef0a3.netlify.com/", className='ref', children="Info"),
     html.H1(id='name', children='LAUNCH.IO'),
-    html.H1(
-        id='Timer',
-        children='0'
-    ),
+    html.H1(id='Timer',children='0'),
     html.Div([
         dcc.Graph(
             id='map',
@@ -96,7 +136,8 @@ main_page = [
                             color='limegreen'
                         ),
                         hoverinfo='text',
-                        text=launches['location'],
+                        hoverlabel={"font": {"size": 14}},
+                        text=launches['location'].unique(),
                 )],
                 layout=go.Layout(
                     hovermode='closest',
@@ -143,19 +184,14 @@ main_page = [
     ])
 ]
 
-rockets_page = [
-    divTemplate(index, row) for index, row in launches.iterrows()
-]
+rockets_page = [html.Div(html.H1("Rockets list", className="title"))]+[render_rocket(index, row) for index, row in rockets.iterrows()]
 
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div(
     children=[
         dcc.Location(id='url', refresh=False),
-        html.Div(
-            className='main',
-            id='Main'
-        )
+        html.Div(className='main', id='Main')
     ]
 )
 
@@ -191,7 +227,7 @@ def timeToNearestLaunch(n):
     full_seconds = 24*3600*diff.days
     hours = int((full_seconds-diff.seconds)/3600/24) - tz_diff
     minutes = int((diff.seconds-hours*60)/60/24)
-    return 'Next launch: {} day(s) {} hour(s) {} minute(s) {} second(s)'.format(diff.days,
+    return 'Next launch: {} days {} hours {} minutes {} seconds'.format(diff.days,
                                                                    hours,
                                                                    minutes,
                                                                    diff.seconds%60)

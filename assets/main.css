@@ -12,6 +12,14 @@ body {
   background-color: rgb(0, 31, 31);
 }
 
+.title {
+  text-align: center;
+  color: limegreen;
+  font-size: 4em;
+  margin-top: 1em;
+  text-decoration: underline
+}
+
 #map {
   height: 800px;
   padding: 0;
@@ -24,7 +32,17 @@ div.main > h1 {
   margin: 1em;
 }
 
-.launch {
+.text {
+  margin-top: 1em;
+  font-size: 1.5em;
+}
+
+div.rocketinfo div.text {
+  float: right;
+  width: 70%;
+}
+
+.launch, .rocketinfo {
     margin: 2em;
     padding: 2em;
     border-radius: 1em;
