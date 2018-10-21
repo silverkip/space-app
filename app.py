@@ -19,6 +19,8 @@ to_be_launched = getLaunches()
 launches = pd.DataFrame(data=past+to_be_launched)
 launches = launches[~launches['lat'].isna()]
 
+density = launches['lat'].value_counts()
+launches['same'] = launches['lat'].apply(lambda x: density[x])
 
 app = dash.Dash(__name__)
 
@@ -76,11 +78,13 @@ app.layout = html.Div(
                 figure=go.Figure(
                     data=[
                         go.Scattermapbox(
-                            lat=launches['lat'],
-                            lon=launches['long'],
+                            lat=launches['lat'].unique(),
+                            lon=launches['long'].unique(),
                             mode='markers',
+                            opacity=0.7,
                             marker=dict(
-                                size=14,
+                                sizemin=10,
+                                size=launches['same']*3,
                                 color='limegreen'
                             ),
                             hoverinfo='text',
