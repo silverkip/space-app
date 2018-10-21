@@ -67,8 +67,8 @@ def render_rocket(idx, row):
                         children=[
                             html.P(children=[html.B(children=k), ': '+ str(v)])
                             for k, v in row.items()
-                            if k in ['Company', 'Site', 'Country'] and str(v).lower() != "nan"
-                        ]
+                            if k in ['Company', 'Country'] and str(v).lower() != "nan"
+                        ]+[html.P(children=[html.B("Site"), ': ', html.A(row["Site"], href=row["Site"])])]
                     )
                 ]
             )

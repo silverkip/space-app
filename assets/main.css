@@ -42,6 +42,15 @@ div.rocketinfo div.text {
   width: 70%;
 }
 
+div.rocketinfo img {
+  padding: 0 !important;
+  margin: 0.5em;
+}
+
+div.rocketinfo a {
+  color: darkgreen;
+}
+
 .launch, .rocketinfo {
     margin: 2em;
     padding: 2em;
