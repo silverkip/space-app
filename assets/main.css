@@ -28,7 +28,6 @@ div.main > h1 {
     background-color: pink;
     font-size: 1.5em;
 }
-<<<<<<< HEAD
 
 img {
   display: block;
@@ -45,13 +44,3 @@ div.text {
 div.bottom::after {
   clear: both;
 }
-
-
-
-
-
-
-
-
-=======
->>>>>>> 51517aae897f56d5901ab8ec5cfbd1752591e529
