@@ -36,13 +36,15 @@ div.main > h1 {
 img {
   display: block;
   float: left;
-  height: 400px;
-  padding: 10px 100px;
+  height: 200px;
+  padding: 10px 50px;
+  background-color: grey;
+  border-radius: 1em;
 }
 
 div.text {
   float: right;
-  width: 80%;
+  width: 90%;
 }
 
 div.bottom::after {
