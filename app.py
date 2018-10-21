@@ -56,6 +56,13 @@ app.layout = html.Div(
                         )],
                     layout=go.Layout(
                         hovermode='closest',
+                        margin=go.layout.Margin(
+                            l=10,
+                            r=10,
+                            b=0,
+                            t=0,
+                            pad=8
+                        ),
                         mapbox=dict(
                             accesstoken=mapbox_access_token,
                             style=mapbox_style,
@@ -67,6 +74,7 @@ app.layout = html.Div(
                             pitch=0,
                             zoom=1
                         ),
+                        paper_bgcolor='rgb(51, 0, 102)'
                     )
                 ),
                 config={'displayModeBar': False}
@@ -79,7 +87,7 @@ app.layout = html.Div(
         ),
         html.Div(
             id='rocket',
-            children='Temp'
+            children=''
         )
     ]
 )
@@ -87,7 +95,6 @@ app.layout = html.Div(
 @app.callback(Output('rocket', 'children'),
               [Input('map', 'clickData')])
 def update_on_click(clickData):
-    print(clickData)
     launch = launches[launches['lat'] == clickData['points'][0]['lat']]
 
     return [
@@ -131,7 +138,7 @@ def timeToNearestLaunch(n):
     T = T[-20:-1]
 
     diff = dt.strptime(T, '%Y-%m-%d %H:%M:%S') - dt.utcnow()
-    tz_diff = localtime().tm_hour - gmtime().tm_hour
+    tz_diff = localtime().tm_hour - gmtime().tm_hour #(gmtime().tm_day - localtime().tm_day)*24
     full_seconds = 24*3600*diff.days
     hours = int((full_seconds-diff.seconds)/3600/24) - tz_diff
     minutes = int((diff.seconds-hours*60)/60/24)

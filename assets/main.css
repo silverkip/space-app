@@ -14,6 +14,7 @@ body {
 
 #map {
   height: 800px;
+  padding: 0;
 }
 
 .launch {
@@ -24,7 +25,3 @@ body {
     background-color: pink;
     font-size: 1.5em;
 }
-
-
-
-
