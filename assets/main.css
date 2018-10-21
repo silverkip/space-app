@@ -15,7 +15,7 @@ body {
 .title {
   text-align: center;
   color: limegreen;
-  font-size: 4em;
+  font-size: 3em;
   margin-top: 1em;
   text-decoration: underline
 }
@@ -28,13 +28,13 @@ body {
 div.main > h1 {
   color: green;
   text-align: center;
-  font-size: 3em;
+  font-size: 0.5em;
   margin: 1em;
 }
 
 .text {
   margin-top: 1em;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 div.rocketinfo div.text {
@@ -58,14 +58,20 @@ div.rocketinfo a {
     border-radius: 1em;
     text-align: left;
     background-color: limegreen;
-    font-size: 1.5em;
+    font-size: 1.2em;
     overflow: auto;
+}
+
+#next_launch {
+  transform: scale(0.75);
+  transform-origin: top left;
+  padding:0; margin:0;
 }
 
 img {
   display: block;
   float: left;
-  height: 350px;
+  height: 300px;
   padding: 10px 100px;
   background-color: darkgreen;
   border-radius: 1em;
@@ -74,7 +80,7 @@ img {
 
 div.text {
   float: right;
-  width: 80%;
+  width: 75%;
 }
 
 div.bottom::after {
@@ -99,16 +105,24 @@ div.bottom::after {
   top:0;
   margin: 30px !important;
   color: darkgreen;
+  font-size: 1.5em;
 }
 
 #next_launch_link {
   position: relative !important;
-  top:0;
-  margin: 30px !important;
+  margin: 50px !important;
+  font-size: 1.5em;
+  text-align: center;
 }
 
 #name {
   font-size: 4em;
+  border: 5px solid darkgreen;
+  width:400px;
+  color: limegreen;
+  text-align: center;
+  display: block;
+  margin: 20px auto;
 }
 
 #name::first-letter {
@@ -123,10 +137,10 @@ div.bottom::after {
   background-color: limegreen !important;
   font-size: 2em;
   font-weight: bold;
+  border: 1px solid darkgreen !important;
 }
 
 .tab-selected {
   text-decoration: underline;
-  border: 6px solid darkgreen !important;
-  background-color: limegreen !important;
+  border: 6px solid darkgreen !important;  
 }
