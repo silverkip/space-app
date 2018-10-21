@@ -66,7 +66,7 @@ def divTemplate(idx, row):
 app.layout = html.Div(
     className='main',
     children=[
-        html.A(href="https://clever-boyd-6ef0a3.netlify.com/", id="ref", children="Info"),
+        html.A(href="https://clever-boyd-6ef0a3.netlify.com/", className="ref", children="Info"),
         html.H1(id="name", children='LAUNCH.IO'),
         html.H1(
             id='Timer',
@@ -109,7 +109,7 @@ app.layout = html.Div(
                                 lon=-73
                             ),
                             pitch=0,
-                            zoom=1
+                            zoom=2
                         )
                     )
                 ),
