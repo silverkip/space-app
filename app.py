@@ -101,26 +101,23 @@ def update_on_click(clickData):
                 html.Div(
                     className="bottom",
                     children=[
-                        html.Div(
-                            className="picture",
-                            style={
-                                "background-image": "url("+row['image']+");",
-                                "width": "20%;",
-                                "float": "left;",
-                            }
-                        ),
-                        html.Div(
-                            className="info",
-                            children=[
-                                html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
-                                for k, v in row.items() 
-                                if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
-                            ]
-                        ),
-                        html.Div(
-                            className="description",
-                            children=launch['description'],
-                        )
+                        html.Img(src=row['image']),
+                        html.Div(className="text",
+                        children=[
+                            html.Div(
+                                className="info",
+                                children=[
+                                    html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
+                                    for k, v in row.items() 
+                                    if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
+                                ]
+                            ),
+                            html.Div(
+                                className="description",
+                                children=launch['description'],
+                            )
+                        ])
+                        
                     ]
                 )
             ]
@@ -132,8 +129,6 @@ def update_on_click(clickData):
               [Input('interval-component', 'n_intervals')])
 def timeToNearestLaunch(n):
     T = to_be_launched[0]['time']
-    firstSlash = T.find('/')
-    tz = T[:firstSlash-1]
     T = T[-20:-1]
 
     diff = dt.strptime(T, '%Y-%m-%d %H:%M:%S') - dt.utcnow()
@@ -147,4 +142,5 @@ def timeToNearestLaunch(n):
                                                                    diff.seconds%60)
 
 if __name__ == '__main__':
+    app.scripts.config.serve_locally = False
     app.run_server()

@@ -6,7 +6,6 @@
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: Arial;
   background-color: rgb(51, 0, 102);
@@ -29,9 +28,20 @@ div.main > h1 {
     font-size: 1.5em;
 }
 
-.picture {
+img {
+  display: block;
   float: left;
-  width: 20%;
+  height: 400px;
+  padding: 10px 100px;
+}
+
+div.text {
+  float: right;
+  width: 70%;
+}
+
+div.bottom::after {
+  clear: both;
 }
 
 
