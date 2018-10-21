@@ -164,13 +164,16 @@ main_page = [
     html.H1(id='name', children='LAUNCH.IO'),
     html.Div(id='Timer',children='0'),
     html.Div(id='next_launch'),
-    dcc.DatePickerRange(
-        id='my-date-picker-range',
-        min_date_allowed=dt(2018, 1, 1),
-        max_date_allowed=dt(2018, 12, 31),
-        initial_visible_month=dt(2018, 10, 1),
-        start_date=dt(2018, 10, 1),
-        end_date=dt(2018, 12, 31)
+    html.Div(
+        dcc.DatePickerRange(
+            id='date_picker',
+            min_date_allowed=dt(2018, 1, 1),
+            max_date_allowed=dt(2018, 12, 31),
+            initial_visible_month=dt(2018, 10, 1),
+            start_date=dt(2018, 10, 1),
+            end_date=dt(2018, 12, 31)
+        ),
+        id='date_range'
     ),
     html.Div([
         dcc.Graph(
@@ -230,8 +233,8 @@ def toTimeDate(T):
         return dt.strptime(T[-20:-1], '%Y-%m-%d %H:%M:%S')
 
 @app.callback(Output('map', 'figure'),
-    [Input('my-date-picker-range', 'start_date'),
-     Input('my-date-picker-range', 'end_date')])
+    [Input('date_picker', 'start_date'),
+     Input('date_picker', 'end_date')])
 def updateMarkersOnDate(st, fin):
     if st and fin:
         times = launches['time'].apply(toTimeDate)
@@ -243,9 +246,9 @@ def updateMarkersOnDate(st, fin):
 @app.callback(Output('rocket', 'children'),
               [Input('map', 'clickData'),
                Input('tabs', 'value'),
-               Input('my-date-picker-range', 'start_date'),
-               Input('my-date-picker-range', 'end_date')])
-def update_on_click(clickData, tab, st, fin):
+               Input('date_picker', 'start_date'),
+               Input('date_picker', 'end_date')])
+def updateLaunchList(clickData, tab, st, fin):
     if tab == 'tab-1':
         if not clickData:
             return html.Div(style={'height': "1000px"})
