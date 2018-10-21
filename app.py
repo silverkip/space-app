@@ -19,6 +19,7 @@ to_be_launched = getLaunches()
 launches = pd.DataFrame(data=past+to_be_launched)
 launches = launches[~launches['lat'].isna()]
 
+
 app = dash.Dash(__name__)
 
 app.css.append_css({
@@ -27,8 +28,6 @@ app.css.append_css({
    )
 })
 
-
-
 app.layout = html.Div(
     className='main',
     children=[
@@ -36,12 +35,8 @@ app.layout = html.Div(
             'LAUNCH.IO'
         ),
         html.H1(
-<<<<<<< HEAD
             id='Timer',
             children='0'
-=======
-            'TIMER'
->>>>>>> d11ca9469123d13210c320b7e8dff6f7dc03937d
         ),
         html.Div([
             dcc.Graph(
@@ -92,7 +87,7 @@ app.layout = html.Div(
 @app.callback(Output('rocket', 'children'),
               [Input('map', 'clickData')])
 def update_on_click(clickData):
-
+    print(clickData)
     launch = launches[launches['lat'] == clickData['points'][0]['lat']]
 
     return [
@@ -111,13 +106,13 @@ def update_on_click(clickData):
                             className="info",
                             children=[
                                 html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
-                                for k, v in row.items() 
+                                for k, v in row.items()
                                 if k in ['vehicle', 'time', 'location', 'pad', 'window']
                                 if v != "nan"
                             ]
-                        ), 
+                        ),
                         html.Div(
-                            className="description", 
+                            className="description",
                             children=launch['description'],
                         )
                     ]
