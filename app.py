@@ -136,7 +136,10 @@ main_page = [
                             color='limegreen'
                         ),
                         hoverinfo='text',
-                        hoverlabel={"font": {"size": 14}},
+                        hoverlabel={"font": {"size": 25, 
+                                             "family":"Lucida Console", 
+                                             "color":"black"}
+                                    },
                         text=launches['location'].unique(),
                 )],
                 layout=go.Layout(
