@@ -140,7 +140,8 @@ app.layout = html.Div(
               [Input('map', 'clickData'), Input('tabs', 'value')])
 def update_on_click(clickData, tab):
     if tab == 'tab-1':
-        if not clickData: return ''
+        if not clickData: 
+            return html.Div(style={'height': "1000px"})
         launch = launches[launches['lat'] == clickData['points'][0]['lat']]
         return [divTemplate(index, row) for index, row in launch.iterrows()]
     elif tab == 'tab-2':
