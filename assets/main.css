@@ -43,6 +43,7 @@ div.rocketinfo div.text {
 }
 
 div.rocketinfo img {
+  height: 200px !important;
   padding: 0 !important;
   margin: 0.5em;
 }
@@ -64,15 +65,16 @@ div.rocketinfo a {
 img {
   display: block;
   float: left;
-  height: 200px;
-  padding: 10px 50px;
+  height: 350px;
+  padding: 10px 100px;
   background-color: darkgreen;
   border-radius: 1em;
+  margin-top: 1em;
 }
 
 div.text {
   float: right;
-  width: 90%;
+  width: 80%;
 }
 
 div.bottom::after {
