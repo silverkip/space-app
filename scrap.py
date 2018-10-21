@@ -12,6 +12,7 @@ def getLaunches(past=False):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'lxml')
     launches = []
+    places = {}
 
     for tag in soup.select("table.launchcalendar"):
 
@@ -29,7 +30,8 @@ def getLaunches(past=False):
         place = result['location'].split(' ')
         result['location'] = ' '.join(place[:-1])
         result['pad'] = place[-1]
-        coordinates = geocode(result['location'])
+        coordinates = places.get(result['location'], geocode(result['location']))
+        places[result['location']] = coordinates
         result['long'] = coordinates.get('lng', None)
         result['lat'] = coordinates.get('lat', None)
         launches.append(result)

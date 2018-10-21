@@ -31,9 +31,8 @@ app.css.append_css({
 app.layout = html.Div(
     className='main',
     children=[
-        html.H1(
-            'LAUNCH.IO'
-        ),
+        html.A(href="Site/index.html", id="ref", children="Info"),
+        html.H1('LAUNCH.IO'),
         html.H1(
             id='Timer',
             children='0'
@@ -121,7 +120,7 @@ def update_on_click(clickData):
                             ),
                             html.Div(
                                 className="description",
-                                children=launch['description'],
+                                children=row['description'],
                             )
                         ])
                         

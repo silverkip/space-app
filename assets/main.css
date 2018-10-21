@@ -50,6 +50,20 @@ div.bottom::after {
 }
 
 
+a#ref {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 3em;
+  color: yellow;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+a#ref:hover {
+  text-decoration: underline;
+}
 
 
 
