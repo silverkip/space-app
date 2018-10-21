@@ -1,0 +1,121 @@
+*{
+text-align: justify;
+}
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+/* Reset */
+*{margin:0;padding:0;}
+
+body{
+  min-width:900px;
+}
+
+
+
+
+
+/* main */
+/* Reset */
+a{text-decoration:none;color:inherit;}
+html{width:100%;height:100%;}
+
+/* Body */
+body{
+  background:#fff;
+}
+
+
+
+
+/* Content */
+.container{
+  width:70%;
+  height:auto;
+  padding:20px 0;
+  margin:20px auto;
+}
+.container h1{
+  font-family:Raleway;
+  font-size:24px;
+  color:#222;
+  text-transform:uppercase;
+  margin:20px 0;
+}
+.container h2{
+  font-family:Raleway;
+  font-size:16px;
+  color:#444;
+  margin-top:10px;
+}
+.container h3{
+  font-family:Raleway;
+  font-weight:normal;
+  font-size:16px;
+  color:#aaa;
+}
+.space{
+  width:20px;
+  height:1px;
+  float:left;
+}
+
+footer{
+  width:100%;
+  height:50px;
+  background:#222;
+}
+ol{
+margin: 20px;
+}
+ul, 
+li{
+  padding-left: 25px;
+}
+
+h2{
+  margin-bottom: 40px;
+  margin-top: 50px;
+}
+
+body {
+	min-width: 480px;
+	background: lightyellow
+}
+
+#wrapper {
+	position: relative;
+	height: auto;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 0 15px;
+	width: 90%
+}
+
+li{
+  margin: 20px;
+  margin-left: 40px;
+  padding-left: 10px;
+}
+
+
+#footer {
+	padding: 10px 20px;
+	text-align: center;
+	background: coral;
+	height: auto;
+	clear: both;
+
+}
+
+
+
+
+.story{
+	clear: both;
+	font-size: 25px;
+		padding:10px;
+}

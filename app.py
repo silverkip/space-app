@@ -64,9 +64,8 @@ def divTemplate(idx, row):
 app.layout = html.Div(
     className='main',
     children=[
-        html.H1(
-            'LAUNCH.IO'
-        ),
+        html.A(href="Site/index.html", id="ref", children="Info"),
+        html.H1('LAUNCH.IO'),
         html.H1(
             id='Timer',
             children='0'
