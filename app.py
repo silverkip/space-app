@@ -101,14 +101,20 @@ def update_on_click(clickData):
                 html.Div(
                     className="bottom",
                     children=[
-                        html.Div(className="picture"),
+                        html.Div(
+                            className="picture",
+                            style={
+                                "background-image": "url("+row['image']+");",
+                                "width": "20%;",
+                                "float": "left;",
+                            }
+                        ),
                         html.Div(
                             className="info",
                             children=[
                                 html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
-                                for k, v in row.items()
-                                if k in ['vehicle', 'time', 'location', 'pad', 'window']
-                                if v != "nan"
+                                for k, v in row.items() 
+                                if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
                             ]
                         ),
                         html.Div(
