@@ -28,6 +28,39 @@ app.css.append_css({
    )
 })
 
+def divTemplate(idx, row):
+    return html.Div(
+        className="launch",
+        children=[
+            html.Div(
+                className="top",
+                children=[html.H1(f"Mission #{idx+1}" + ": "+row['mission'])],
+            ),
+            html.Div(
+                className="bottom",
+                children=[
+                    html.Img(src=row['image']),
+                    html.Div(className="text",
+                    children=[
+                        html.Div(
+                            className="info",
+                            children=[
+                                html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
+                                for k, v in row.items()
+                                if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
+                            ]
+                        ),
+                        html.Div(
+                            className="description",
+                            children=row['description'],
+                        )
+                    ])
+
+                ]
+            )
+        ]
+    )
+
 app.layout = html.Div(
     className='main',
     children=[
@@ -53,9 +86,10 @@ app.layout = html.Div(
                             ),
                             hoverinfo='text',
                             text=launches['location'],
-                        )],
+                    )],
                     layout=go.Layout(
                         hovermode='closest',
+                        paper_bgcolor="rgb(51, 0, 102)",
                         margin=go.layout.Margin(
                             l=10,
                             r=10,
@@ -87,12 +121,15 @@ app.layout = html.Div(
             )
         ),
         html.Div([
-            dcc.Tabs(id="tabs", value='tab-1', children=[
-                dcc.Tab(label='All launches on this locatino', value='tab-1'),
+            dcc.Tabs(id="tabs", value='tab-2', children=[
+                dcc.Tab(label='All launches on this location', value='tab-1'),
                 dcc.Tab(label='ALL', value='tab-2'),
             ]),
             html.Div(
-                id='rocket'
+                id='rocket',
+                children=[
+                    divTemplate(index, row) for index, row in launches.iterrows()
+                ]
             )
         ])
     ]
@@ -101,75 +138,16 @@ app.layout = html.Div(
 @app.callback(Output('rocket', 'children'),
               [Input('map', 'clickData'), Input('tabs', 'value')])
 def update_on_click(clickData, tab):
-    launch = launches[launches['lat'] == clickData['points'][0]['lat']]
-
     if tab == 'tab-1':
+        if not clickData:
+            return ''
+        launch = launches[launches['lat'] == clickData['points'][0]['lat']]
         return [
-            html.Div(
-                className="launch",
-                children=[
-                    html.Div(
-                        className="top",
-                        children=[html.H1("Mission: "+row['mission'])],
-                    ),
-                    html.Div(
-                        className="bottom",
-                        children=[
-                            html.Img(src=row['image']),
-                            html.Div(className="text",
-                            children=[
-                                html.Div(
-                                    className="info",
-                                    children=[
-                                        html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
-                                        for k, v in row.items()
-                                        if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
-                                    ]
-                                ),
-                                html.Div(
-                                    className="description",
-                                    children=launch['description'],
-                                )
-                            ])
-
-                        ]
-                    )
-                ]
-            ) for index, row in launch.iterrows()
+             divTemplate(index, row) for index, row in launch.iterrows()
         ]
     elif tab == 'tab-2':
         return [
-            html.Div(
-                className="launch",
-                children=[
-                    html.Div(
-                        className="top",
-                        children=[html.H1("Mission: "+row['mission'])],
-                    ),
-                    html.Div(
-                        className="bottom",
-                        children=[
-                            html.Img(src=row['image']),
-                            html.Div(className="text",
-                            children=[
-                                html.Div(
-                                    className="info",
-                                    children=[
-                                        html.P(children=[html.B(children=k.capitalize()), ': '+ str(v)])
-                                        for k, v in row.items()
-                                        if k in ['vehicle', 'time', 'location', 'pad', 'window'] and str(v) != "nan"
-                                    ]
-                                ),
-                                html.Div(
-                                    className="description",
-                                    children=launch['description'],
-                                )
-                            ])
-
-                        ]
-                    )
-                ]
-            ) for index, row in launches.iterrows()
+            divTemplate(index, row) for index, row in launches.iterrows()
         ]
 
 @app.callback(Output('Timer', 'children'),
