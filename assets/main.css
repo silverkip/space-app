@@ -94,6 +94,18 @@ div.bottom::after {
   top: 60px !important;
 }
 
+#timer {
+  top:0;
+  margin: 30px !important;
+  color: darkgreen;
+}
+
+#next_launch_link {
+  position: relative !important;
+  top:0;
+  margin: 30px !important;
+}
+
 #name {
   font-size: 4em;
 }
@@ -116,5 +128,4 @@ div.bottom::after {
   text-decoration: underline;
   border: 6px solid darkgreen !important;
   background-color: limegreen !important;
-
 }

@@ -18,7 +18,7 @@ def get_image(query):
     for img in soup.select("img[alt]"):
         if query in img["alt"]:
              return img["src"]
-    
+
 
 mapbox_access_token = 'pk.eyJ1IjoiYW5kcmV5ZGVuIiwiYSI6ImNqbmhwdGlkMjBhYzQzanJzbTM3NzdobW8ifQ.ZR_vrBuTDB1-byVDkuxn4g'
 mapbox_style = 'mapbox://styles/redboot/cjnidreh14o5o2rs1vgnsol2p'
@@ -29,8 +29,6 @@ spaceports = pd.read_excel('Rockets and spaceports.xlsx', 'Spaceports')
 for index, row in rockets.iterrows():
     if pd.isnull(row["Rocket"]): continue
     row["Photo"] = get_image("Rocket "+row["Rocket"])
-
-print("done.")
 
 past = getLaunches(True)
 to_be_launched = getLaunches()
@@ -49,7 +47,7 @@ app.css.append_css({
 })
 
 def render_rocket(idx, row):
-    if pd.isnull(row.values).any(): 
+    if pd.isnull(row.values).any():
         return ''
     return html.Div(
         className="rocketinfo",
@@ -116,10 +114,12 @@ index_page = [
 
 main_page = [
     dcc.Link('Rockets', id='rockets', className='ref', href='/rockets'),
-    html.Div(id='temp'),
-    html.A(href="https://clever-boyd-6ef0a3.netlify.com/", className='ref', children="Info"),
+    html.A(href="https://clever-boyd-6ef0a3.netlify.com/",
+           className='ref',
+           children="Info"),
     html.H1(id='name', children='LAUNCH.IO'),
-    html.H1(id='Timer',children='0'),
+    html.Div(id='Timer',children='0'),
+    html.Div(id='next_launch'),
     html.Div([
         dcc.Graph(
             id='map',
@@ -136,8 +136,8 @@ main_page = [
                             color='limegreen'
                         ),
                         hoverinfo='text',
-                        hoverlabel={"font": {"size": 25, 
-                                             "family":"Lucida Console", 
+                        hoverlabel={"font": {"size": 25,
+                                             "family":"Lucida Console",
                                              "color":"black"}
                                     },
                         text=launches['location'].unique(),
@@ -230,10 +230,30 @@ def timeToNearestLaunch(n):
     full_seconds = 24*3600*diff.days
     hours = int((full_seconds-diff.seconds)/3600/24) - tz_diff
     minutes = int((diff.seconds-hours*60)/60/24)
-    return 'Next launch: {} days {} hours {} minutes {} seconds'.format(diff.days,
-                                                                   hours,
-                                                                   minutes,
-                                                                   diff.seconds%60)
+    return [html.H1([
+                html.A('Next launch:', className='ref', id='next_launch_link'),
+                html.H1(
+                    ' {} days {} hours {} minutes {} seconds'.format(diff.days,
+                                                                      hours,
+                                                                      minutes,
+                                                                      diff.seconds%60),
+                    id='timer'
+                )
+            ])]
+
+showing_next_launch_info = False
+
+@app.callback(Output('next_launch', 'children'),
+              [Input('next_launch_link', 'n_clicks')])
+def showNextLaunchInfo(n_clicks):
+    if n_clicks:
+        global showing_next_launch_info
+        if (showing_next_launch_info):
+            showing_next_launch_info = False
+            return ''
+        else:
+            showing_next_launch_info = True
+            return divTemplate(1, to_be_launched[0])
 
 if __name__ == '__main__':
     #app.scripts.config.serve_locally = False
