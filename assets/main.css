@@ -18,6 +18,9 @@ body {
 
 div.main > h1 {
   color: pink;
+  text-align: center;
+  font-size: 3em;
+  margin: 1em;
 }
 
 .launch {
@@ -27,6 +30,7 @@ div.main > h1 {
     text-align: left;
     background-color: pink;
     font-size: 1.5em;
+    overflow: auto;
 }
 
 img {
@@ -38,7 +42,7 @@ img {
 
 div.text {
   float: right;
-  width: 70%;
+  width: 80%;
 }
 
 div.bottom::after {
