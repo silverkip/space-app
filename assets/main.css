@@ -62,6 +62,12 @@ div.rocketinfo a {
     overflow: auto;
 }
 
+#next_launch {
+  transform: scale(0.75);
+  transform-origin: top left;
+  padding:0; margin:0;
+}
+
 img {
   display: block;
   float: left;
@@ -104,12 +110,19 @@ div.bottom::after {
 
 #next_launch_link {
   position: relative !important;
-  top:0;
-  margin: 30px !important;
+  margin: 50px !important;
+  font-size: 2em;
+  text-align: center;
 }
 
 #name {
   font-size: 4em;
+  border: 5px solid darkgreen;
+  width:400px;
+  color: limegreen;
+  text-align: center;
+  display: block;
+  margin: 20px auto;
 }
 
 #name::first-letter {
@@ -124,10 +137,10 @@ div.bottom::after {
   background-color: limegreen !important;
   font-size: 2em;
   font-weight: bold;
+  border: 1px solid darkgreen !important;
 }
 
 .tab-selected {
   text-decoration: underline;
-  border: 6px solid darkgreen !important;
-  background-color: limegreen !important;
+  border: 6px solid darkgreen !important;  
 }
