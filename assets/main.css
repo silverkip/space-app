@@ -87,7 +87,6 @@ div.bottom::after {
   clear: both;
 }
 
-
 .ref {
   position: absolute;
   top: 10px;
@@ -130,6 +129,49 @@ div.bottom::after {
   font-size: 1.5em;
 }
 
+
+
+
+#date_range {
+  margin: 10px;
+}
+
+.DateRangePickerInput {
+  border: 3px solid black !important;
+  background-color: limegreen;
+}
+
+.DateInput, .DayPicker, .CalendarMonth, .DayPickerNavigation--horizontal,
+.DayPickerNavigation__prev, .DayPickerNavigation__next,
+.CalendarDay--selected-span{
+  font-family: "Lucida Console", Monaco, monospace;
+  font-weight: bold;
+  background-color: limegreen !important;
+}
+
+.CalendarDay__button, .DayPickerNavigation__prev, .DayPickerNavigation__next{
+  border: 1px solid black;
+}
+
+.DayPickerNavigation--horizontal {
+  border-bottom: 1px solid black;
+}
+
+.CalendarDay--selected-start, .CalendarDay--selected-end {
+  background-color: darkgreen !important;
+}
+
+.CalendarDay--selected-span {
+  background-color: rgba(255, 255, 0, 0.5) !important;
+}
+
+.DayPickerKeyboardShortcuts__show--bottom-right {
+  border-right: 33px solid darkgreen !important;
+}
+
+
+
+
 .ref:hover {
   text-decoration: underline;
 }
@@ -143,5 +185,5 @@ div.bottom::after {
 
 .tab-selected {
   text-decoration: underline;
-  border: 6px solid darkgreen !important;  
+  border: 6px solid darkgreen !important;
 }

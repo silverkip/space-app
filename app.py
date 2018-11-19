@@ -106,6 +106,50 @@ def divTemplate(idx, row):
         ]
     )
 
+def mapTemplate(df):
+    return go.Figure(
+        data=[
+            go.Scattermapbox(
+                lat=df['lat'].unique(),
+                lon=df['long'].unique(),
+                mode='markers',
+                opacity=0.7,
+                marker=dict(
+                    sizemin=10,
+                    size=df['same']*3,
+                    color='limegreen'
+                ),
+                hoverinfo='text',
+                hoverlabel={"font": {"size": 25,
+                                     "family":"Lucida Console",
+                                     "color":"black"}
+                            },
+                text=df['location'].unique(),
+        )],
+        layout=go.Layout(
+            hovermode='closest',
+            paper_bgcolor="rgb(0, 31, 31)",
+            margin=go.layout.Margin(
+                l=10,
+                r=10,
+                b=0,
+                t=0,
+                pad=8
+            ),
+            mapbox=dict(
+                accesstoken=mapbox_access_token,
+                style=mapbox_style,
+                bearing=0,
+                center=dict(
+                    lat=45,
+                    lon=-73
+                ),
+                pitch=0,
+                zoom=2
+            )
+        )
+    )
+
 index_page = [
     dcc.Link('Home', href='/home'),
     html.Br(),
@@ -120,51 +164,21 @@ main_page = [
     html.H1(id='name', children='LAUNCH.IO'),
     html.Div(id='Timer',children='0'),
     html.Div(id='next_launch'),
+    html.Div(
+        dcc.DatePickerRange(
+            id='date_picker',
+            min_date_allowed=dt(2018, 1, 1),
+            max_date_allowed=dt(2018, 12, 31),
+            initial_visible_month=dt(2018, 10, 1),
+            start_date=dt(2018, 10, 1),
+            end_date=dt(2018, 12, 31)
+        ),
+        id='date_range'
+    ),
     html.Div([
         dcc.Graph(
             id='map',
-            figure=go.Figure(
-                data=[
-                    go.Scattermapbox(
-                        lat=launches['lat'].unique(),
-                        lon=launches['long'].unique(),
-                        mode='markers',
-                        opacity=0.7,
-                        marker=dict(
-                            sizemin=10,
-                            size=launches['same']*3,
-                            color='limegreen'
-                        ),
-                        hoverinfo='text',
-                        hoverlabel={"font": {"size": 25,
-                                             "family":"Lucida Console",
-                                             "color":"black"}
-                                    },
-                        text=launches['location'].unique(),
-                )],
-                layout=go.Layout(
-                    hovermode='closest',
-                    paper_bgcolor="rgb(0, 31, 31)",
-                    margin=go.layout.Margin(
-                        l=10,
-                        r=10,
-                        b=0,
-                        t=0,
-                        pad=8
-                    ),
-                    mapbox=dict(
-                        accesstoken=mapbox_access_token,
-                        style=mapbox_style,
-                        bearing=0,
-                        center=dict(
-                            lat=45,
-                            lon=-73
-                        ),
-                        pitch=0,
-                        zoom=2
-                    )
-                )
-            ),
+            figure=mapTemplate(launches),
             config={'displayModeBar': False}
         )
     ]),
@@ -198,6 +212,10 @@ app.layout = html.Div(
     ]
 )
 
+#################################################
+################## CALL BACKS ##################
+#################################################
+
 @app.callback(Output('Main', 'children'),
               [Input('url', 'pathname')])
 def displayRocketList(path_name):
@@ -208,13 +226,37 @@ def displayRocketList(path_name):
     else:
         return index_page
 
+def toTimeDate(T):
+    if T == 'TBD':
+        return dt(2018, 12, 31)
+    else:
+        return dt.strptime(T[-20:-1], '%Y-%m-%d %H:%M:%S')
+
+@app.callback(Output('map', 'figure'),
+    [Input('date_picker', 'start_date'),
+     Input('date_picker', 'end_date')])
+def updateMarkersOnDate(st, fin):
+    if st and fin:
+        times = launches['time'].apply(toTimeDate)
+        times = times.apply(lambda x: dt.strptime(st, '%Y-%m-%d') <= x <= dt.strptime(fin, '%Y-%m-%d'))
+        return mapTemplate(launches[times])
+    else:
+        return mapTemplate(launches)
+
 @app.callback(Output('rocket', 'children'),
-              [Input('map', 'clickData'), Input('tabs', 'value')])
-def update_on_click(clickData, tab):
+              [Input('map', 'clickData'),
+               Input('tabs', 'value'),
+               Input('date_picker', 'start_date'),
+               Input('date_picker', 'end_date')])
+def updateLaunchList(clickData, tab, st, fin):
     if tab == 'tab-1':
         if not clickData:
             return html.Div(style={'height': "1000px"})
-        launch = launches[launches['lat'] == clickData['points'][0]['lat']]
+        sameCoords = launches['lat'] == clickData['points'][0]['lat']
+        def comp(x):
+            return dt.strptime(st, '%Y-%m-%d') <= toTimeDate(x) <= dt.strptime(fin, '%Y-%m-%d')
+        inDateRange = launches['time'].apply(comp)
+        launch = launches[sameCoords & inDateRange]
         return [divTemplate(index, row) for index, row in launch.iterrows()]
     elif tab == 'tab-2':
         return [divTemplate(index, row) for index, row in launches.iterrows()]
