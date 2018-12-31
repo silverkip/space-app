@@ -1,15 +1,32 @@
 # Launch.io
 
 An app our team made for NASA Space Apps Hackathon 2018.
+It's supposed to run [here](https://launch-io.herokuapp.com/), but is not currently available.
+It's purpose is to provide accessible rocket launch information for everyone.
 
-It's supposed to run [here](https://launch-io.herokuapp.com/), but it's not always that way.
+## Overview
+At the top of main page user can get time of the next flight.
 
-It's purpose is to provide common people with easy access to the rocket launch information.
+![top](Gallery/startscreen.png)
 
-At the top of main page user can get time of the next flight. 
+It is also possible to read information about a particular spaceport by clicking on it's marker on map. The bigger the circle the more launches will be done from this locatin. All data will be shown below the map.
 
-Also, it is possible to to pick schedule for special spaceport, by clicking on it's sign on map. The bigger the circle the more flight will be done from this locatin. All data will shown below the map.
+Another feature is the ability to filter launches by time period, which can be chosen by picking two dates on the calendar. 
 
-Another feature is to filter flight by period of time, which can be choosen by clicking on calendar and picking two dates. Flight are not limited by future, there is access to the done too.
+At the top right corner two links are located. The first one shows information about the reasons when and where a rocket will be launched and why a flight can be cancelled. 
 
-At the top right corner two links are located. First one shows information about reasons when and where rocket will be launch and why a flight can be cancelled. Second links to the list of active rockets and some useful description.
+The second one links to the list of active rockets and some useful description.
+
+![rockets](Gallery/rockets.png)
+
+## References
+The data about the rocket launches is being collected from [here](http://www.spaceflightinsider.com/launch-schedule/).
+
+## Credits
+[Lev Potomkin](https://github.com/lyova-potyomkin)
+
+[Andrii Denysenko](https://github.com/ANDREYDEN)
+
+Aleksandr Makarchuk
+
+Eduard Laptiev
