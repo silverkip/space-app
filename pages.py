@@ -133,9 +133,9 @@ MAIN_PAGE = [
             id='date_picker',
             min_date_allowed=dt(2000, 1, 1),
             max_date_allowed=dt(3000, 12, 31),
-            initial_visible_month=dt(2018, 10, 1),
-            start_date=dt(2018, 10, 1),
-            end_date=dt(2018, 12, 31)
+            initial_visible_month=dt(2019, 1, 1),
+            start_date=dt(2019, 1, 1),
+            end_date=dt(2020, 1, 1)
         ),
         id='date_range'
     ),
