@@ -131,8 +131,8 @@ MAIN_PAGE = [
     html.Div(
         dcc.DatePickerRange(
             id='date_picker',
-            min_date_allowed=dt(2018, 1, 1),
-            max_date_allowed=dt(2018, 12, 31),
+            min_date_allowed=dt(2000, 1, 1),
+            max_date_allowed=dt(3000, 12, 31),
             initial_visible_month=dt(2018, 10, 1),
             start_date=dt(2018, 10, 1),
             end_date=dt(2018, 12, 31)
