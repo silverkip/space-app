@@ -91,9 +91,9 @@ def timeToNearestLaunch(n):
                 html.A('Next launch:', className='ref', id='next_launch_link'),
                 html.H1(
                     ' {} days {} hours {} minutes {} seconds'.format(diff.days,
-                                                                      hours,
-                                                                      int(minutes),
-                                                                      diff.seconds%60),
+                                                                     int(hours),
+                                                                     int(minutes),
+                                                                     diff.seconds%60),
                     id='timer'
                 )
             ])]
