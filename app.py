@@ -268,7 +268,7 @@ def timeToNearestLaunch(n):
     T = T[-20:-1]
 
     diff = dt.strptime(T, '%Y-%m-%d %H:%M:%S') - dt.utcnow()
-	hours, minutes = divmod(diff.seconds/60,60)
+    hours, minutes = divmod(diff.seconds/60,60)
     return [html.H1([
                 html.A('Next launch:', className='ref', id='next_launch_link'),
                 html.H1(
