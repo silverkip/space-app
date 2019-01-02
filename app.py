@@ -86,17 +86,14 @@ def timeToNearestLaunch(n):
     T = T[-20:-1]
 
     diff = dt.strptime(T, '%Y-%m-%d %H:%M:%S') - dt.utcnow()
-    tz_diff = localtime().tm_hour - gmtime().tm_hour #(gmtime().tm_day - localtime().tm_day)*24
-    full_seconds = 24*3600*diff.days
-    hours = int((full_seconds-diff.seconds)/3600/24) - tz_diff
-    minutes = int((diff.seconds-hours*60)/60/24)
+    hours, minutes = divmod(diff.seconds/60,60)
     return [html.H1([
                 html.A('Next launch:', className='ref', id='next_launch_link'),
                 html.H1(
                     ' {} days {} hours {} minutes {} seconds'.format(diff.days,
-                                                                     hours,
-                                                                     minutes,
-                                                                     diff.seconds%60),
+                                                                      hours,
+                                                                      int(minutes),
+                                                                      diff.seconds%60),
                     id='timer'
                 )
             ])]
