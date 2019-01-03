@@ -12,6 +12,7 @@ from pages import divTemplate, mapTemplate, INDEX_PAGE, MAIN_PAGE, ROCKETS_PAGE
 from consts import LAUNCHES, FUTURE_LAUNCHES
 
 app = dash.Dash(__name__)
+server = app.server
 
 # add prewritten css
 app.css.append_css({
@@ -114,4 +115,4 @@ def showNextLaunchInfo(n_clicks):
 
 if __name__ == '__main__':
     #app.scripts.config.serve_locally = False
-    app.run_server()
+    app.run_server(debug=True)
