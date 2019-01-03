@@ -1,0 +1,10 @@
+xlrd
+lxml
+pandas
+bs4
+dash
+dash_core_components
+dash_html_components
+requests
+plotly
+gunicorn
